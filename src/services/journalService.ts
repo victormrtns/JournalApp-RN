@@ -3,7 +3,7 @@ import { store } from "../stores/tinybaseStore";
 
 export const TABLE_NAME = "JOURNALENTRIES";
 
-export type EntryType = "task" | "event" | "note";
+export type EntryType = "Task" | "Event" | "Note";
 
 export type JournalEntryStore = {
     title: string;
@@ -14,13 +14,14 @@ export type JournalEntryStore = {
 
 export type JournalEntry = JournalEntryStore & { id: string };
 
-export function addJournalEntry(): string {
+export function addJournalEntry(entry: JournalEntry): string {
     const id = Math.random().toString(36).substr(2, 9);
-    const entry: JournalEntryStore = {
-        title: "Exemplo de entrada",
-        type: "note",
-        description: "Descrição de exemplo",
-        date: new Date().toISOString(),
+
+    const journalEntry: JournalEntryStore = {
+        title: entry.title,
+        type: entry.type,
+        description: entry.description,
+        date: entry.date,
     };
 
     store.setRow(TABLE_NAME, id, entry);

@@ -9,11 +9,12 @@ import {
     TABLE_NAME,
 } from "@/src/services/journalService";
 import { store } from "@/src/stores/tinybaseStore";
+import NewJournalEntry from "@/src/modals";
 
 export default function HomePage() {
     useTinybasePersistence();
     const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-
+    const [modalVisible,setModalVisible] = useState(false);
     const loadEntries = () => {
         const entries = getAllJournalEntries();
         setJournalEntries(entries);
@@ -39,9 +40,12 @@ export default function HomePage() {
 
             <Button
                 title="Adicionar Entrada"
-                onPress={() => {
-                    addJournalEntry();
-                }}
+                onPress={() => setModalVisible(true)}
+            />
+
+            <NewJournalEntry
+                setModalVisible={setModalVisible}
+                modalVisible={modalVisible}
             />
 
             <FlatList
@@ -58,9 +62,9 @@ export default function HomePage() {
                         }}
                     >
                         <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
-                        <Text>Tipo: {item.type}</Text>
-                        <Text>Descrição: {item.description}</Text>
-                        <Text>Data: {new Date(item.date).toLocaleString()}</Text>
+                        <Text>Type: {item.type}</Text>
+                        <Text>Description: {item.description}</Text>
+                        <Text>Date: {new Date(item.date).toLocaleString()}</Text>
                     </View>
                 )}
             />
